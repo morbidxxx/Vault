@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>🏦 Банковое хранилище</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React и ReactDOM -->
+    <script type="module" src="https://esm.sh/react@18"></script>
+    <script type="module" src="https://esm.sh/react-dom@18"></script>
 </head>
 <body>
     <div id="root"></div>
-    <script type="module" src="https://esm.sh/react@18"></script>
-    <script type="module" src="https://esm.sh/react-dom@18"></script>
-    <script type="module" src="./app.jsx"></script>
+
+    <!-- Babel для JSX -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- Ваш JSX-код -->
+    <script type="text/babel" src="./app.jsx"></script>
 </body>
 </html>
+
