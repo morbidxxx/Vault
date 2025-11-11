@@ -40,8 +40,7 @@ const BankVaultApp = () => {
   return [state, setValue];
 };
 
-  const [banks, setBanks] = hatch.useStoredState('banks', []);
-  const [savedPin, setSavedPin] = hatch.useStoredState('app_pin', null);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState('');
   const [isCreatingPin, setIsCreatingPin] = useState(false);
