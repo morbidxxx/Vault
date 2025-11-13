@@ -135,17 +135,20 @@ for(let i=0; i<50; i++){
     document.body.appendChild(dollar);
 }
 
-// Ввод PIN-кода при запуске
-let pin = localStorage.getItem('pin');
-if(!pin){
-  pin = prompt("Введите PIN-код для входа:");
-  localStorage.setItem('pin', pin);
-}
+// Задайте PIN-код прямо в коде:
+const pin = '4580'; // здесь установите свой PIN-код
+
+// Запросите ввод PIN у пользователя
 let inputPin = prompt("Введите PIN для входа");
-if(inputPin !== pin){
+
+// Проверка
+if (inputPin !== pin) {
   alert("Неверный PIN!");
-  // Можно остановить работу или перезагрузить
   document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:50px;'>Доступ запрещен</h2>";
+} else {
+  // Здесь можно продолжить загрузку или показывать страницу
+  alert("Доступ разрешен");
+  // продолжайте остальной код сайта
 }
 
 // Данные о банках
