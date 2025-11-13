@@ -150,105 +150,105 @@ if (inputPin !== pin) {
   alert("Доступ разрешен");
   // продолжайте остальной код сайта
   // Данные о банках
-let banks = JSON.parse(localStorage.getItem('banks')) || [];
+  let banks = JSON.parse(localStorage.getItem('banks')) || [];
 
 // Обновление отображения
-function renderBanks(){
-  const container = document.getElementById('banksContainer');
+  function renderBanks(){
+    const container = document.getElementById('banksContainer');
   container.innerHTML = '';
-  banks.forEach((bank, index) => {
-    const card = document.createElement('div');
-    card.className = 'bank-card';
-    card.style.borderTop = `10px solid ${bank.color}`;
-
-    // Шапка банка
-    card.innerHTML = `
-      <div class="bank-header">
-        <div class="bank-name">${bank.name}</div>
-        <div class="color-indicator" style="background:${bank.color};"></div>
-      </div>
-      <button onclick="deleteBank(${index})" style="background:red;color:white;padding:4px 8px;border:none;border-radius:10px;cursor:pointer;">Удалить</button>
-      <div class="notes-section">
-        <strong>Заметки:</strong> <br>
-        <textarea rows="2" style="width:100%;" onchange="updateNotes(${index}, this.value)">${bank.notes}</textarea>
-      </div>
-      <div class="cardsContainer" id="cardsForBank${index}">
-        ${bank.cards.map((card, cIndex) => `
-          <div class="card">
-            <div><strong>Карта:</strong> ${card.number}</div>
-            <div><strong>Пинкод:</strong> ${card.pin}</div>
-            <div><strong>Примечание:</strong> ${card.note}</div>
-            <button onclick="deleteCard(${index}, ${cIndex})" style="background:red;color:white;border:none;border-radius:5px;padding:4px 8px; cursor:pointer;">Удалить карту</button>
-          </div>
-        `).join('')}
-        <button onclick="addCard(${index})" style="margin-top:8px; padding:6px 12px; background:#4CAF50; color:white; border:none; border-radius:10px; cursor:pointer;">Добавить карту</button>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-// Добавление банка
-function addBank(){
-  const name = prompt("Название банка:");
-  const color = prompt("Цвет банка (напр., #ff0000 или red):");
-  if(name && color){
-    banks.push({name, color, notes:'', cards:[]});
+    banks.forEach((bank, index) => {
+      const card = document.createElement('div');
+      card.className = 'bank-card';
+      card.style.borderTop = `10px solid ${bank.color}`;
+  
+      // Шапка банка
+      card.innerHTML = `
+        <div class="bank-header">
+          <div class="bank-name">${bank.name}</div>
+          <div class="color-indicator" style="background:${bank.color};"></div>
+        </div>
+        <button onclick="deleteBank(${index})" style="background:red;color:white;padding:4px 8px;border:none;border-radius:10px;cursor:pointer;">Удалить</button>
+        <div class="notes-section">
+          <strong>Заметки:</strong> <br>
+          <textarea rows="2" style="width:100%;" onchange="updateNotes(${index}, this.value)">${bank.notes}</textarea>
+        </div>
+        <div class="cardsContainer" id="cardsForBank${index}">
+          ${bank.cards.map((card, cIndex) => `
+            <div class="card">
+              <div><strong>Карта:</strong> ${card.number}</div>
+              <div><strong>Пинкод:</strong> ${card.pin}</div>
+              <div><strong>Примечание:</strong> ${card.note}</div>
+              <button onclick="deleteCard(${index}, ${cIndex})" style="background:red;color:white;border:none;border-radius:5px;padding:4px 8px; cursor:pointer;">Удалить карту</button>
+            </div>
+          `).join('')}
+          <button onclick="addCard(${index})" style="margin-top:8px; padding:6px 12px; background:#4CAF50; color:white; border:none; border-radius:10px; cursor:pointer;">Добавить карту</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+  
+  // Добавление банка
+  function addBank(){
+    const name = prompt("Название банка:");
+    const color = prompt("Цвет банка (напр., #ff0000 или red):");
+    if(name && color){
+      banks.push({name, color, notes:'', cards:[]});
+      save();
+      renderBanks();
+    }
+  }
+  
+  // Удаление банка
+  function deleteBank(index){
+    banks.splice(index,1);
     save();
     renderBanks();
   }
-}
-
-// Удаление банка
-function deleteBank(index){
-  banks.splice(index,1);
-  save();
+  
+  // Обновление заметок
+  function updateNotes(index, value){
+    banks[index].notes = value;
+    save();
+  }
+  
+  // Добавление карты
+  function addCard(bankIndex){
+    const number = prompt("номер карты:");
+    const pin = prompt("Пинкод:");
+    const note = prompt("Примечание:");
+    if(number && pin){
+      banks[bankIndex].cards.push({number, pin, note});
+      save();
+      renderBanks();
+    }
+  }
+  
+  // Удаление карты
+  function deleteCard(bankIndex, cardIndex){
+    banks[bankIndex].cards.splice(cardIndex,1);
+    save();
+  }
+  
+  // Сохранение данных
+  function save(){
+    localStorage.setItem('banks', JSON.stringify(banks));
+  }
+  
+  // Обработчики кнопок
+  document.write(`
+  <header>
+    <button onclick="addBank()">Добавить банк</button>
+  </header>
+  <div id="banksContainer"></div>
+  `);
+  
   renderBanks();
-}
-
-// Обновление заметок
-function updateNotes(index, value){
-  banks[index].notes = value;
-  save();
-}
-
-// Добавление карты
-function addCard(bankIndex){
-  const number = prompt("номер карты:");
-  const pin = prompt("Пинкод:");
-  const note = prompt("Примечание:");
-  if(number && pin){
-    banks[bankIndex].cards.push({number, pin, note});
-    save();
-    renderBanks();
+  
+  </script>
+  </body>
+  </html>
   }
-}
-
-// Удаление карты
-function deleteCard(bankIndex, cardIndex){
-  banks[bankIndex].cards.splice(cardIndex,1);
-  save();
-}
-
-// Сохранение данных
-function save(){
-  localStorage.setItem('banks', JSON.stringify(banks));
-}
-
-// Обработчики кнопок
-document.write(`
-<header>
-  <button onclick="addBank()">Добавить банк</button>
-</header>
-<div id="banksContainer"></div>
-`);
-
-renderBanks();
-
-</script>
-</body>
-</html>
-}
 
 
 
