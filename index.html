@@ -156,7 +156,7 @@ if (inputPin !== pin) {
   function renderBanks(){
     const container = document.getElementById('banksContainer');
   container.innerHTML = '';
-    banks.forEach((bank, index) => {
+  banks.forEach((bank, index) => {
       const card = document.createElement('div');
       card.className = 'bank-card';
       card.style.borderTop = `10px solid ${bank.color}`;
